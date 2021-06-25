@@ -1,0 +1,3 @@
+在表单中，除了提交按钮外，可能还有一些其他的功能性按钮，如发送验证码按钮。
+在使用这些按钮时，要注意将native-type设置为button，否则会触发表单提交。
+<van-button native-type="button">发送验证码</van-button>

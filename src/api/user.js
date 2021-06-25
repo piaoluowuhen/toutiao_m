@@ -1,8 +1,8 @@
 import request from '@/utils/request'
 //获取验证码
-export function getMobileCode() {
+export function getMobileCode(mobile) {
     return request({
-        url: '/app/v1_0/sms/codes/:mobile',
+        url: `/app/v1_0/sms/codes/${mobile}`,
         methed: 'get',
     })
 }
