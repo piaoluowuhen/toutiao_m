@@ -15,9 +15,9 @@
           width="60px"
           height="60px"
           fit="cover"
-          src="https://img01.yzcdn.cn/vant/cat.jpeg"
+          :src="UserInfo.photo"
         />
-        <span class="text">黑马头条号</span>
+        <span class="text">{{UserInfo.name}}</span>
 
         <van-button round size="mini" type="default">编辑资料</van-button>
       </div>
@@ -25,16 +25,16 @@
       <div class="options">
         <van-row>
           <van-col span="6">
-            <span>8</span> <span class="text">头条</span>
+            <span>{{UserInfo.art_count}}</span> <span class="text">头条</span>
           </van-col>
           <van-col span="6">
-            <span>8</span> <span class="text">关注</span>
+            <span>{{UserInfo.follow_count}}</span> <span class="text">关注</span>
           </van-col>
           <van-col span="6">
-            <span>8</span> <span class="text">粉丝</span>
+            <span>{{UserInfo.fans_count}}</span> <span class="text">粉丝</span>
           </van-col>
           <van-col span="6">
-            <span>8</span> <span class="text">获赞</span>
+            <span>{{UserInfo.like_count}}</span> <span class="text">获赞</span>
           </van-col>
         </van-row>
       </div>
@@ -53,25 +53,65 @@
     <!-- cell单元格 -->
     <van-cell class="cell" title="消息通知" is-link />
     <van-cell title="小智同学" is-link />
-    <van-cell v-if='token' class="logout" clickable title="退出登录"  />
+    <van-cell
+      @click="out"
+      v-if="token"
+      class="logout"
+      clickable
+      title="退出登录"
+    />
   </div>
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import { mapState, mapMutations } from "vuex";
+import { getUserInfo } from "@/api/user";
 export default {
+  created() {
+    console.log(this.token.token);
+    //如果有token获取用户信息
+    if(this.token){
+      this.getUserInfo()
+    }
+  },
   data() {
     return {
+      UserInfo: {},
     };
   },
-  computed:{
-      ...mapState(['token'])
-
+  computed: {
+    ...mapState(["token"]),
   },
   methods: {
+    ...mapMutations(["settoken"]),
+    //获取用户自己信息
+   async getUserInfo() {
+     try {
+    const {data:{data}} = await getUserInfo();
+    console.log(data);    
+    this.UserInfo = data  
+     } catch (error) {
+       this.$toast.fail('获取信息失败')
+       
+     }
+    },
     //点击未登录头像盒子跳转登录页
     redirectIogin() {
       this.$router.push("/login");
+    },
+    //退出登录
+    out() {
+      this.$dialog
+        .confirm({ title: "确认退出？", message: "点击确认退出登录" })
+        .then(() => {
+          // console.log(1);
+          this.settoken(null); //设置token传null也就清空了vuex和本地存储
+          // on confirm
+        })
+        .catch(() => {
+          // console.log(2);
+          // on cancel
+        });
     },
   },
 };
@@ -118,9 +158,9 @@ export default {
     }
     .van-button {
       width: 140px;
-      margin-left: 240px;
     }
     .text {
+      width: 400px;
       font-size: 30px;
       color: #fff;
       margin-left: 30px;
@@ -139,6 +179,7 @@ export default {
         flex-direction: column; //主轴方向
 
         .text {
+          width: 100px;
           font-size: 24px;
         }
       }
@@ -146,26 +187,24 @@ export default {
   }
 }
 .grid {
-    height: 141px;
-    i {
-        font-size: 45px;
-        color: #eb5253;
-
-    }
-    .toutiao-lishi {
-        color: #ff9d1d;
-    }
-    span {
-        font-size: 28px;
-
-    }
+  height: 141px;
+  i {
+    font-size: 45px;
+    color: #eb5253;
+  }
+  .toutiao-lishi {
+    color: #ff9d1d;
+  }
+  span {
+    font-size: 28px;
+  }
 }
 .cell {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 .logout {
-    text-align: center;
-    color: #d86282;
-    margin: 10px 0;
+  text-align: center;
+  color: #d86282;
+  margin: 10px 0;
 }
 </style>

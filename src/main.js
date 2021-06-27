@@ -13,6 +13,8 @@ import 'vant/lib/index.css'
 //rem适配插件（html标签字体大小）
 import 'amfe-flexible'
 
+import '@/utils/day.js'
+
 Vue.use(Vant)
 
 Vue.config.productionTip = false
