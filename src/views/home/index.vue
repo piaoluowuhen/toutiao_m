@@ -10,7 +10,7 @@
     <van-tabs class="tabpage" v-model="active" swipeable animated>
       <van-tab :title="item.name" :key="item.id" v-for="item in UserChannels">
         <!-- 内容组件 -->
-        <artcleList :artcle="item"></artcleList>
+        <artcleList  :artcle="item"></artcleList>
       </van-tab>
 
       <!-- 占位最后一个元素显示完 -->
@@ -32,7 +32,7 @@
       @click-close-icon="close"
       >
       <!-- 内容组件 -->
-      <popup-content></popup-content>
+      <popup-content :active='active' :my='UserChannels'></popup-content>
       
       </van-popup
     >
