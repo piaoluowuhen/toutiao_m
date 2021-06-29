@@ -37,9 +37,8 @@ export function getUserInfo() {
 //获取用户频道列表
 export function getUserChannels() {
     return request({
-
         url: '/app/v1_0/user/channels',
-        methed: 'GET',
+        methed: 'get',
 
     })
 }

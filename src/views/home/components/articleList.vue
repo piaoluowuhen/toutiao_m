@@ -62,7 +62,7 @@ export default {
           timestamp: this.timestamp || Date.now(), //时间戳整数 单位毫秒  开始为空请求当前时间戳数据
           with_top: 0, //是否包含置顶，进入页面第一次请求时要包含置顶文章，1-包含置顶，0-不包含
         });
-        console.log(data);
+        // console.log(data);
 
         this.list.push(...data.results);
 

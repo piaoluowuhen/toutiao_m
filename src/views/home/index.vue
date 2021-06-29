@@ -3,14 +3,14 @@
     <!-- 导航栏 -->
     <van-nav-bar class="nav" fixed>
       <template v-slot:title>
-        <van-button round icon="search" type="primary">搜索</van-button>
+        <van-button round icon="search" type="primary" to="/search">搜索</van-button>
       </template>
     </van-nav-bar>
     <!-- tab标签页 -->
     <van-tabs class="tabpage" v-model="active" swipeable animated>
       <van-tab :title="item.name" :key="item.id" v-for="item in UserChannels">
         <!-- 内容组件 -->
-        <artcleList  :artcle="item"></artcleList>
+        <artcleList :artcle="item"></artcleList>
       </van-tab>
 
       <!-- 占位最后一个元素显示完 -->
@@ -30,12 +30,14 @@
       round
       @close="close"
       @click-close-icon="close"
-      >
-      <!-- 内容组件 -->
-      <popup-content :active='active' :my='UserChannels'></popup-content>
-      
-      </van-popup
     >
+      <!-- 内容组件 -->
+      <popup-content
+        :active="active"
+        :my="UserChannels"
+        @upactive="pop"
+      ></popup-content>
+    </van-popup>
   </div>
 </template>
 
@@ -43,13 +45,16 @@
 import { getUserChannels } from "@/api/user.js";
 import artcleList from "./components/articleList.vue";
 import popupContent from "./components/popupContent.vue";
+import { mapState } from "vuex";
+import { getItem } from "@/utils/storage";
+
 export default {
   created() {
     this.getUserChannels();
   },
   components: {
     artcleList,
-    popupContent
+    popupContent,
   },
   data() {
     return {
@@ -58,25 +63,54 @@ export default {
       show: false,
     };
   },
+  computed: {
+    ...mapState(["token"]),
+  },
   methods: {
     async getUserChannels() {
       try {
-        const {
-          data: {
-            data: { channels },
-          },
-        } = await getUserChannels();
-        console.log(channels);
-        this.UserChannels = channels;
+        if (this.token.token) {
+          // 已登录，请求获取用户频道列表
+          const {
+            data: {data:{
+               channels} 
+            }
+          } = await getUserChannels();
+          console.log(channels);
+          this.UserChannels = channels;
+        } else {
+          // 未登录，判断是否有本地的频道列表数据
+          const localChannels = getItem("TOUTIAO_CHANNELS");
+          //    有，拿来使用
+          if (localChannels) {
+            this.UserChannels = localChannels;
+          } else {
+            //    没有，请求获取默认频道列表
+            const {
+              data: {
+                data: { channels },
+              },
+            } = await getUserChannels();
+            this.UserChannels = channels;
+          }
+        }
       } catch (error) {
         this.$toast.fail("获取频道失败");
+        console.log(error);
       }
     },
+
     showPopup() {
       this.show = true;
     },
     close() {
       // this.show = false
+    },
+    //默认true
+    pop(index, show = true) {
+      //$emit 传递参数时 @upactive='pop' 不能加括号
+      this.show = show;
+      this.active = index;
     },
   },
 };
