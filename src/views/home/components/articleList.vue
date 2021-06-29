@@ -16,7 +16,8 @@
         finished-text="没有更多了"
         @load="onLoad"
       >
-        <van-cell v-for="item in list" :key="item.art_id"  >
+      <!-- *************************大数字 模块转化对象 拼接字符串就直接转化了 -->
+        <van-cell :to="'/article/'+item.art_id" v-for="(item,index) in list" :key="index"  >
              <artcle-item :item='item' slot='default'></artcle-item>
         </van-cell>
       </van-list>
@@ -97,6 +98,7 @@ export default {
         this.isLoading = false;
       } catch (error) {
         this.isLoading = false;
+        this.error=true
 
         this.text = "刷新失败";
       }
