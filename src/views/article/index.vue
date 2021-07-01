@@ -68,17 +68,15 @@
           <van-icon name="share" slot="icon" />
         </van-tabbar-item>
       </van-tabbar>
-    <van-divider>正文结束</van-divider>
 
-        <!-- 评论区列表组件 -->
-    <comment-list
-    ref="list"
+      <van-divider>正文结束</van-divider>
 
-      :list="commentlist"
-
-      @reply-click="onReplyClick"
-    ></comment-list>
-
+      <!-- 评论区列表组件 -->
+      <comment-list
+        ref="list"
+        :list="commentlist"
+        @reply-click="onReplyClick"
+      ></comment-list>
     </div>
 
     <!-- 加载失败：其它未知错误（例如网络原因或服务端异常） -->
@@ -91,11 +89,8 @@
     </div>
     <!-- /加载失败：其它未知错误（例如网络原因或服务端异常） -->
 
-
-
-
-     <!-- 发布评论 -->
-        <!-- <van-popup
+    <!-- 发布评论 -->
+    <!-- <van-popup
           v-model="isPostShow"
           position="bottom"
         >
@@ -104,9 +99,9 @@
             @post-success="onPostSuccess"
           />
         </van-popup> -->
-        <!-- 发布评论 -->
+    <!-- 发布评论 -->
 
-        <!-- 评论回复 -->
+    <!-- 评论回复 -->
     <!--
       弹出层是懒渲染的：只有在第一次展示的时候才会渲染里面的内容，之后它的关闭和显示都是在切换内容的显示和隐藏
      -->
@@ -115,12 +110,12 @@
       position="bottom"
       style="height: 100%;"
     > -->
-      <!--
+    <!--
         v-if 条件渲染
           true：渲染元素节点
           false：不渲染
        -->
-      <!-- <comment-reply
+    <!-- <comment-reply
         v-if="isReplyShow"
         :comment="currentComment"
         @close="isReplyShow = false"
@@ -173,7 +168,7 @@ export default {
           data: { data },
         } = await getArticleById(this.articleId);
         this.articledata = data;
-        this.$refs.list.sureid(this.articledata.art_id)
+        this.$refs.list.sureid(this.articledata.art_id);
         //ImagePreview 图片预览
         //获取内容数据img标签src属性值 因为次函数在挂载前调用
         setTimeout(() => {
