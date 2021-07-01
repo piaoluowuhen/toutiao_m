@@ -69,7 +69,6 @@ export default {
     //确定搜索 触发 监听子组件点击cell单元格并传值
     async result(text) {
       this.searchText = text;
-
       // 历史记录数据处理 不要重复数据 最近的排在最前面
       if (this.historyList.indexOf(text) !== -1) {
         //找到重复数据了

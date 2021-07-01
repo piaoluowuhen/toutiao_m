@@ -35,10 +35,10 @@ export const addCollect = target => {
 /**
  * 取消收藏文章
  */
-export const deleteCollect = target => {
+export const deleteCollect = id => {
     return request({
         method: 'DELETE',
-        url: `/app/v1_0/article/collections/${target}`
+        url: `/app/v1_0/article/collections/${id}`
     })
 }
 

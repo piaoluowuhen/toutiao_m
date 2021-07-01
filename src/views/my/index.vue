@@ -19,7 +19,7 @@
         />
         <span class="text">{{UserInfo.name}}</span>
 
-        <van-button round size="mini" type="default">编辑资料</van-button>
+        <van-button to="/my/profile" round size="mini" type="default">编辑资料</van-button>
       </div>
 
       <div class="options">

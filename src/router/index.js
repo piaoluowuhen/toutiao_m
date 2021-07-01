@@ -49,6 +49,11 @@ const routes = [{
             import ('@/views/article'),
         props: true, //开启props传参，直接把动态参数映射到组件props
 
+    }, {
+        path: '/my/profile',
+        name: 'profile',
+        component: () =>
+            import ('@/views/userProfile')
     }
 ]
 
