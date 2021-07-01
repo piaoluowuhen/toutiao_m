@@ -68,6 +68,17 @@
           <van-icon name="share" slot="icon" />
         </van-tabbar-item>
       </van-tabbar>
+    <van-divider>正文结束</van-divider>
+
+        <!-- 评论区列表组件 -->
+    <comment-list
+    ref="list"
+
+      :list="commentlist"
+
+      @reply-click="onReplyClick"
+    ></comment-list>
+
     </div>
 
     <!-- 加载失败：其它未知错误（例如网络原因或服务端异常） -->
@@ -80,16 +91,8 @@
     </div>
     <!-- /加载失败：其它未知错误（例如网络原因或服务端异常） -->
 
-    <van-divider>正文结束</van-divider>
 
-    <!-- 评论区列表组件 -->
-    <comment-list
-    ref="list"
 
-      :list="commentlist"
-
-      @reply-click="onReplyClick"
-    ></comment-list>
 
      <!-- 发布评论 -->
         <!-- <van-popup
